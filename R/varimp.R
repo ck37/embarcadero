@@ -14,7 +14,7 @@
 #'
 #'
 
-varimp <- function(model, plots=FALSE) {
+varimp <- function(model, plots=FALSE, top_vars = Inf) {
 
   if(!("fit" %in% names(model))) {
     stop("Please add \", keeptrees=TRUE\" to your dbarts model call")
@@ -72,6 +72,8 @@ varimp <- function(model, plots=FALSE) {
     summarise(mean = mean(value),
               sd = sd(value, na.rm = TRUE)) %>% 
     transform(Var = reorder(key, mean)) %>%
+    # CK: limit to the top X variables.
+    filter(row_number() <= top_vars) %>%
         ggplot(aes(x = Var, y = mean)) +
               geom_pointrange(aes(y = mean, x = Var, ymin = mean-sd, ymax = mean+sd),
                               color="#00AFDD") + 
