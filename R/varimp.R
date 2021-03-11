@@ -27,7 +27,9 @@ varimp <- function(model, plots=FALSE) {
   }
   if(class(model)=='bart') {
     basenames <- unlist(attr(model$fit$data@x,"drop"))
-    names <- names(which(basenames==FALSE))
+    #names <- names(which(basenames==FALSE))
+    # CK: support factor variables that are expanded.
+    names <- colnames(model$varcount)
     varimps <- colMeans(model$varcount/rowSums(model$varcount))
     fitobj <- model$fit
   }
