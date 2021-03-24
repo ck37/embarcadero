@@ -73,7 +73,7 @@ varimp <- function(model, plots=FALSE, top_vars = Inf) {
               sd = sd(value, na.rm = TRUE)) %>% 
     transform(Var = reorder(key, mean)) %>%
     # CK: limit to the top X variables.
-    arrange(desc(mean))
+    arrange(desc(mean)) %>%
     #filter(row_number() > n() - top_vars) %>%
     filter(row_number() <= top_vars) %>%
         ggplot(aes(x = Var, y = mean)) +
